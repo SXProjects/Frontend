@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# Принцип ведения проекта.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+Так как неизвестно сколько людей будут работать над фронтом, пока мы обусловились, что это 2 человека, поэтому решил сделать краткое пособие для всех кто будет работать над фронтом. Если будут проблемы с гайдом, то в телегу.
 
-In the project directory, you can run:
+Концепция работы донельзя простая. Существует две ветки: master и dev. В ветку master мы пушим коммиты так называемые production-ready, а в ветку dev пушим все изменения, которые добавляются.
 
-### `yarn start`
+Для начала работы нужно:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+  git clone https://github.com/SXProjects/Frontend.git
+  cd /Папка_проекта
+  git remote add frontend https://github.com/SXProjects/Frontend.git
+  npm install
+  # или если используешь yarn
+  yarn install
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Для SSH.
 
-### `yarn test`
+```bash
+  git clone git@github.com:SXProjects/Frontend.git
+  cd /Папка_проекта
+  git remote add frontend git@github.com:SXProjects/Frontend.git
+  npm install
+  # или если используешь yarn
+  yarn install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+P.S Cоветую настроить доступ по _[SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)_.
 
-### `yarn build`
+## Получить последнюю версию репозитория.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+  git pull
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Пушим код.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
+И так, после того как заклонили проект и внесли в него свои изменения, делаем следующее:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+  ## Проверяем, что находимся на dev ветке.
+  git checkout dev
+  ## Добавляем файл/файлы (может отличаться от примера выше) в коммит не через точку, дальше объясню почему.
+  git add Nazvanie_izmenennih_failov.ts
+  ## Именуем коммит, например: "Добавлена функционал для кнопки входа".
+  git commit -m "Добавлена функционал для кнопки входа"
+  ## Пушим коммит на dev ветку.
+  git push frontend dev
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+В случае, если это production-ready коммит, то делаем так.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+  ## Проверяем, что находимся на dev ветке.
+  git checkout dev
+  ## Добавляем файл/файлы (может отличаться от примера выше) в коммит не через точку, дальше объясню почему.
+  git add Nazvanie_izmenennih_failov.ts
+  ## Именуем коммит, например: "Добавлена функционал для кнопки входа".
+  git commit -m "Добавлена функционал для кнопки входа"
+  ## Переходим на master ветку.
+  git checkout master
+  ## Мерджим master ветку с dev веткой.
+  git merge dev
+  ## Пушим на master ветку.
+  git push frontend master
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Файлы добавляем в коммит не через точку, потому что два разных человека могут работать над двумя разными файлами и в случае коммита с точкой, ты сохраняешь и пушиш на репозиторий все измененные тобой файлы. И потом, второй человек, после своей работы захочет загрузить свои файлы, для этого ему нужно запулить, что в дальнейшем скажется на простоте пуша коммита.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+В общем, ты можешь добавлять файлы через точку, только когда ТЫ УВЕРЕН, ЧТО ИЗМЕНЯЛ ТОЛЬКО СВОИ ФАЙЛЫ.
