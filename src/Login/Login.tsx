@@ -1,10 +1,27 @@
+import axios from 'axios';
 import { useState } from 'react';
 import logo from '../pictures/smart-home.png';
 import './Login.scss';
 
 export function Login() {
+  const url = 'http://localhost:8080';
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  function handleButtonClick() {
+    axios
+      .post(
+        `${url}/user/login`,
+        { name: login, password: password },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      });
+  }
 
   return (
     <div className="Login">
@@ -32,7 +49,9 @@ export function Login() {
             placeholder="Пароль"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="button">Войти</button>
+          <button type="button" onClick={handleButtonClick}>
+            Войти
+          </button>
         </div>
       </div>
     </div>
