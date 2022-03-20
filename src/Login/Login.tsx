@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { domain } from '../config/config';
 import logo from '../pictures/smart-home.png';
 import './Login.scss';
 
 export function Login() {
-  const url = 'http://localhost:8080';
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -12,14 +12,19 @@ export function Login() {
   function handleButtonClick() {
     axios
       .post(
-        `${url}/user/login`,
+        `${domain}/user/login`,
         { name: login, password: password },
         { withCredentials: true }
       )
       .then((response) => {
+        console.log(response.status);
         if (response.status === 200) {
           window.location.reload();
         }
+      })
+      .catch((error) => {
+        const errorJson = error.response.data;
+        setErrorMsg(errorJson.error);
       });
   }
 
@@ -44,11 +49,12 @@ export function Login() {
             onChange={(e) => setLogin(e.target.value)}
           />
           <input
-            type="text"
+            type="password"
             value={password}
             placeholder="Пароль"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {errorMsg && <p className="error">{errorMsg}</p>}
           <button type="button" onClick={handleButtonClick}>
             Войти
           </button>
