@@ -1,19 +1,22 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { domain } from '../config/config';
+import { domain } from '../../config/config';
+import { useAppDispatch } from '../../redux/hooks';
+import { login } from '../../redux/user/userSlice';
 import logo from '../pictures/smart-home.png';
 import './Login.scss';
 
 export function Login() {
-  const [login, setLogin] = useState('');
+  const [loginText, setLoginText] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const dispatch = useAppDispatch();
 
   function handleButtonClick() {
     axios
       .post(
         `${domain}/user/login`,
-        { name: login, password: password },
+        { name: loginText, password: password },
         { withCredentials: true }
       )
       .then((response) => {
@@ -44,9 +47,9 @@ export function Login() {
         <div className="form-block">
           <input
             type="text"
-            value={login}
+            value={loginText}
             placeholder="Логин"
-            onChange={(e) => setLogin(e.target.value)}
+            onChange={(e) => setLoginText(e.target.value)}
           />
           <input
             type="password"
