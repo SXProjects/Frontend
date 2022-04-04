@@ -5,7 +5,7 @@ import { useAppSelector } from '../redux/hooks';
 import { domain } from '../config/config';
 import { Index } from './Index/Index';
 import { Login } from './Login/Login';
-import { login } from '../redux/user/userSlice';
+import { login } from '../redux/slices/User/userSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ function App() {
           login({
             loggedIn: true,
             name: response.data.name,
+            id: response.data.id,
             permission: response.data.permission,
           })
         );

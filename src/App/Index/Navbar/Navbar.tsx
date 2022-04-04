@@ -1,10 +1,13 @@
+import { Box, Button, Flex, FormHelperText } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { domain } from '../../../config/config';
 import { useAppSelector } from '../../../redux/hooks';
-import './Navbar.scss';
+import { Profile } from './Profile/Profile';
 
 export function Navbar() {
+  const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const user = useAppSelector((state) => state.user);
 
@@ -25,15 +28,15 @@ export function Navbar() {
   }, []);
 
   return (
-    <div className="navbar">
-      <div className="roomSection">
-        {rooms.map((name, id) => {
-          return <button key={id}>{name}</button>;
-        })}
-      </div>
-      <div className="profile">
-        <p className="username">{user.name}</p>
-      </div>
-    </div>
+    <Flex align="start" mt="4vh" flexDirection="row">
+      <Profile />
+      {rooms.map((name, id) => {
+        return (
+          <Button key={id} ml="1vw">
+            {name}
+          </Button>
+        );
+      })}
+    </Flex>
   );
 }

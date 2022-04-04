@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 
 interface UserState {
   loggedIn: boolean;
+  id?: string;
   name?: string;
   permission?: string;
 }
@@ -18,7 +18,8 @@ export const userSlice = createSlice({
     login: (state, action: PayloadAction<UserState>) => {
       state.loggedIn = action.payload.loggedIn;
       state.name = action.payload.name;
-      state.name = action.payload.permission;
+      state.id = action.payload.id;
+      state.permission = action.payload.permission;
     },
   },
 });
