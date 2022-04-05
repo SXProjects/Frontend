@@ -17,7 +17,7 @@ import {
   FormControl,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { Fragment } from 'react';
+import { ChangeEvent, Fragment } from 'react';
 import { useState } from 'react';
 import { domain } from '../../../../../config/config';
 
@@ -30,6 +30,8 @@ export function ChangeWindow() {
   const [isError, setIsError] = useState(false);
   const [errorUsernameMsg, setErrorUsernameMsg] = useState('');
   const [errorPasswordMsg, setErrorPasswordMsg] = useState('');
+  const [photo, setPhoto] = useState<File>();
+  const [isPhotoLoaded, setIsPhotoLoaded] = useState(true);
 
   function handleChangeNameButtonClick() {
     axios
@@ -63,10 +65,23 @@ export function ChangeWindow() {
       });
   }
 
+  function handleChangePhotoButtonClick() {
+    const formData = new FormData();
+    formData.append('userImage', photo!, photo!.name);
+    axios
+      .post(`${domain}/user/image/add`, formData, { withCredentials: true })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+
   return (
     <Fragment>
       <ModalOverlay />
-      <ModalContent mt="25vh">
+      <ModalContent mt="15vh">
         <ModalHeader>Изменение данных</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -146,6 +161,28 @@ export function ChangeWindow() {
                 )}
               </FormControl>
             </Flex>
+            <Text fontSize="1.4vw" fontWeight="bold" mt="2vh" mb="3vh">
+              Фото
+            </Text>
+            <input
+              type="file"
+              name="Выбрать"
+              onChange={(e) => {
+                setPhoto(e.target.files![0]);
+                setIsPhotoLoaded(false);
+              }}
+            />
+            <Button
+              mt="3vh"
+              w="5vw"
+              backgroundColor="#56999f"
+              _hover={{ backgroundColor: '#56999f' }}
+              _active={{ backgroundColor: '#508489' }}
+              onClick={handleChangePhotoButtonClick}
+              disabled={isPhotoLoaded}
+            >
+              Сменить
+            </Button>
           </Flex>
         </ModalBody>
       </ModalContent>

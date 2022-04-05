@@ -28,15 +28,31 @@ export function Navbar() {
   }, []);
 
   return (
-    <Flex align="start" mt="4vh" flexDirection="row">
-      <Profile />
-      {rooms.map((name, id) => {
-        return (
-          <Button key={id} ml="1vw">
-            {name}
-          </Button>
-        );
-      })}
-    </Flex>
+    <Box mt="4vh">
+      <Flex justifyContent="flex-start" ml="5vw" align="flex-start">
+        <Profile />
+      </Flex>
+
+      <Flex
+        flexDirection="row"
+        justifyContent="center"
+        align="center"
+        mt="-4vh"
+      >
+        {rooms.map((name, id) => {
+          return (
+            <Button
+              key={id}
+              ml="1vw"
+              backgroundColor="#56999f"
+              _hover={{ backgroundColor: '#56999f' }}
+              _active={{ backgroundColor: '#508489' }}
+            >
+              {name}
+            </Button>
+          );
+        })}
+      </Flex>
+    </Box>
   );
 }
