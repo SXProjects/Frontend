@@ -1,17 +1,10 @@
 import {
-  Center,
-  Box,
-  Image,
   Text,
   Badge,
   Flex,
   Button,
   Modal,
   useDisclosure,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
   MenuList,
   Menu,
   MenuButton,
@@ -19,10 +12,11 @@ import {
 } from '@chakra-ui/react';
 import { useAppSelector } from '../../../../redux/hooks';
 import { MdBuild } from 'react-icons/md';
+import { FiLogOut } from 'react-icons/fi';
 import { domain } from '../../../../config/config';
 import { ChangeWindow } from './ChangeWindow/ChangeWindow';
-import { Fragment, useState } from 'react';
 import { NewUserWindow } from './NewUserWindow/NewUserWindow';
+import axios from 'axios';
 
 export function Profile() {
   const user = useAppSelector((state) => state.user);
@@ -37,6 +31,17 @@ export function Profile() {
     onClose: onCloseUserCreate,
   } = useDisclosure();
 
+  function handleLogoutButtonClick() {
+    axios
+      .delete(`${domain}/user/logout`, { withCredentials: true })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+
   return (
     <Menu>
       <MenuButton
@@ -49,8 +54,8 @@ export function Profile() {
         <Avatar size="lg" src={`${domain}/${user.id}.png`} />
       </MenuButton>
       <MenuList
-        w="23vw"
-        h="26vh"
+        w="28vw"
+        h="19vh"
         backgroundColor="rgba(160, 209, 214, 0.88)"
         borderRadius={15}
       >
@@ -69,9 +74,11 @@ export function Profile() {
                 </Badge>
               </Flex>
               <Flex flexDirection="row" align="center" mt="1.1vh">
-                <Button fontSize="0.8vw" onClick={onOpenUserCreate}>
-                  Добавить пользователя
-                </Button>
+                {user.permission === 'ADMIN' && (
+                  <Button fontSize="0.8vw" onClick={onOpenUserCreate}>
+                    Добавить пользователя
+                  </Button>
+                )}
                 <Button
                   leftIcon={<MdBuild />}
                   colorScheme="pink"
@@ -79,12 +86,16 @@ export function Profile() {
                   ml="0.2vw"
                   onClick={onOpenSettings}
                 />
+                <Button
+                  leftIcon={<FiLogOut />}
+                  colorScheme="blue"
+                  w="0.5vw"
+                  ml="0.2vw"
+                  onClick={handleLogoutButtonClick}
+                />
               </Flex>
             </Flex>
           </Flex>
-          <Text fontSize="1.3vw" mt="1.1vh">
-            Пользователи
-          </Text>
         </Flex>
       </MenuList>
 

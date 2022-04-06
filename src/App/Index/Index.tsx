@@ -3,18 +3,12 @@ import { useAppSelector } from '../../redux/hooks';
 import { DIndex } from '../../redux/slices/Index/indexDictionary';
 import { Profile } from './Navbar/Profile/Profile';
 import { Navbar } from './Navbar/Navbar';
+import { Flex } from '@chakra-ui/react';
 
 export function Index() {
   const index = useAppSelector((state) => state.index);
 
-  if (index.active === DIndex.farm) {
-    return (
-      <Fragment>
-        <Navbar />
-        <p>farm</p>
-      </Fragment>
-    );
-  } else if (index.active === DIndex.robot) {
+  if (index.active === DIndex.robot) {
     return (
       <Fragment>
         <Navbar />

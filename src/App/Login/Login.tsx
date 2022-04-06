@@ -14,7 +14,7 @@ import {
   FormControl,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import logo from '../pictures/smart-home.png';
+import logoHome from '../pictures/smart-home.png';
 
 export function Login() {
   const [show, setShow] = useState(false);
@@ -48,7 +48,7 @@ export function Login() {
   return (
     <Center mt={20}>
       <Flex align="center" mt={2} flexDirection="column">
-        <Image w="6.5rem" h="6.5rem" src={logo} />
+        <Image w="6.5rem" h="6.5rem" src={logoHome} />
         <Text
           fontFamily="sans-serif"
           fontSize="2.5vw"

@@ -20,12 +20,8 @@ export const indexSlice = createSlice({
     setRobot: (state) => {
       state.active = DIndex.robot;
     },
-
-    setFarm: (state) => {
-      state.active = DIndex.farm;
-    },
   },
 });
 
-export const { setIndex, setRobot, setFarm } = indexSlice.actions;
+export const { setIndex, setRobot } = indexSlice.actions;
 export default indexSlice.reducer;

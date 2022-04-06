@@ -1,10 +1,11 @@
-import { Box, Button, Flex, FormHelperText } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import { domain } from '../../../config/config';
 import { useAppSelector } from '../../../redux/hooks';
 import { Profile } from './Profile/Profile';
+import { Sidebar } from './Sidebar/Sidebar';
 
 export function Navbar() {
   const dispatch = useDispatch();
@@ -32,12 +33,11 @@ export function Navbar() {
       <Flex justifyContent="flex-start" ml="5vw" align="flex-start">
         <Profile />
       </Flex>
-
       <Flex
         flexDirection="row"
         justifyContent="center"
         align="center"
-        mt="-4vh"
+        mt="-50px"
       >
         {rooms.map((name, id) => {
           return (
@@ -52,6 +52,9 @@ export function Navbar() {
             </Button>
           );
         })}
+      </Flex>
+      <Flex justifyContent="flex-end" align="flex-end" mr="2vw" mt="-80px">
+        <Sidebar />
       </Flex>
     </Box>
   );
