@@ -4,6 +4,7 @@ import { DIndex } from '../../redux/slices/Index/indexDictionary';
 import { Profile } from './Navbar/Profile/Profile';
 import { Navbar } from './Navbar/Navbar';
 import { Flex } from '@chakra-ui/react';
+import { Sensor } from './Sensor/Sensor'
 
 export function Index() {
   const index = useAppSelector((state) => state.index);
@@ -13,12 +14,14 @@ export function Index() {
       <Fragment>
         <Navbar />
         <p>robot</p>
+        <Sensor/>
       </Fragment>
     );
   } else {
     return (
       <Fragment>
         <Navbar />
+        <Sensor/>
       </Fragment>
     );
   }
