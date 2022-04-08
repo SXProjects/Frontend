@@ -40,7 +40,7 @@ export function Profile() {
 
   function handleLogoutButtonClick() {
     axios
-      .delete(`${domain}/user/logout`, { withCredentials: true })
+      .post(`${domain}/user/logout`, { id: user.id })
       .then(() => {
         window.location.reload();
       })
@@ -58,7 +58,7 @@ export function Profile() {
         cursor="pointer"
         minW={0}
       >
-        <Avatar size="lg" src={`${domain}/${user.id}.png`} />
+        <Avatar size="lg" />
       </MenuButton>
       <MenuList
         w="auto"
@@ -69,9 +69,6 @@ export function Profile() {
       >
         <Flex flexDirection="column" align="center">
           <Flex flexDirection="row" align="center">
-            <Flex align="center" justifyContent="center">
-              <Avatar src={`${domain}/${user.id}.png`} size="xl" ml="0.3vw" />
-            </Flex>
             <Flex flexDirection="column" ml="1vw" align="center">
               <Flex flexDirection="row" align="center">
                 <Text fontSize="2.1vw" fontWeight="bold">

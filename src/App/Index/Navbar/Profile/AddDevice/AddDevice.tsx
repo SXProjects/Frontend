@@ -22,6 +22,7 @@ export function AddDevice() {
   const [ssid, setSsid] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (ipAdress === '' || password === '' || port === '' || ssid === '') {
@@ -45,7 +46,7 @@ export function AddDevice() {
         port: port,
       })
       .then(() => {
-        window.location.reload();
+        setIsSuccess(true);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -140,6 +141,12 @@ export function AddDevice() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+
+              {isSuccess && (
+                <Text fontSize="1vw" color="green.300">
+                  Устройство добавлено
+                </Text>
+              )}
 
               <Button
                 w="8vw"

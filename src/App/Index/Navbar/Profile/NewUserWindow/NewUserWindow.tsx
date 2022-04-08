@@ -26,6 +26,7 @@ export function NewUserWindow() {
   const [show, setShow] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (username === '' || password === '' || permission === '') {
@@ -41,17 +42,13 @@ export function NewUserWindow() {
 
   function handleCreateUserButtonClick() {
     axios
-      .post(
-        `${domain}/user/register`,
-        {
-          name: username,
-          password: password,
-          permission: permission,
-        },
-        { withCredentials: true }
-      )
+      .post(`${domain}/user/register`, {
+        name: username,
+        password: password,
+        permission: permission,
+      })
       .then(() => {
-        window.location.reload();
+        setIsSuccess(true);
       })
       .catch((error) => {
         setIsError(true);
@@ -127,6 +124,11 @@ export function NewUserWindow() {
                 </InputRightElement>
               </InputGroup>
               {errorMsg && <FormErrorMessage>{errorMsg}</FormErrorMessage>}
+              {isSuccess && (
+                <Text fontSize="1vw" color="green.300">
+                  Пользователь создан.
+                </Text>
+              )}
             </FormControl>
             <Button
               mt="4vh"

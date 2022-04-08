@@ -42,11 +42,12 @@ export function Sensor() {
   return (
     <Center>
       <Flex flexDirection="row" justifyContent="center" mt="25vh">
-        {sensors.map((sensor) => (
+        {sensors.map((sensor, index) => (
           <Flex
             flexDirection="column"
             textAlign="center"
             justifyContent="center"
+            key={index}
           >
             {sensor.room === currentRoom.active && (
               <Square

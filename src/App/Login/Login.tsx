@@ -15,6 +15,8 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import logoHome from '../pictures/smart-home.png';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slices/User/userSlice';
 
 export function Login() {
   const [show, setShow] = useState(false);
@@ -22,6 +24,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
 
   function handleShowClick() {
     setShow(!show);
@@ -29,14 +32,17 @@ export function Login() {
 
   function handleLoginClick() {
     axios
-      .post(
-        `${domain}/user/login`,
-        { name: loginText, password: password },
-        { withCredentials: true }
-      )
-      .then(() => {
+      .post(`${domain}/user/login`, { name: loginText, password: password })
+      .then((response) => {
         setIsError(false);
-        window.location.reload();
+        dispatch(
+          login({
+            loggedIn: true,
+            name: response.data.name,
+            id: response.data.id,
+            permission: response.data.permission,
+          })
+        );
       })
       .catch((error) => {
         const errorJson = error.response.data;

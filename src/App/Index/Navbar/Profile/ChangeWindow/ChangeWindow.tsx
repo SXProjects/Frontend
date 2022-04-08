@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { domain } from '../../../../../config/config';
 
 import axios from 'axios';
+import { useAppSelector } from '../../../../../redux/hooks';
 
 export function ChangeWindow() {
   const [newName, setNewName] = useState('');
@@ -26,15 +27,17 @@ export function ChangeWindow() {
   const [errorPasswordMsg, setErrorPasswordMsg] = useState('');
   const [photo, setPhoto] = useState<File>();
   const [isPhotoLoaded, setIsPhotoLoaded] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const user = useAppSelector((state) => state.user);
 
   function handleChangeNameButtonClick() {
     axios
-      .post(
-        `${domain}/user/change/username`,
-        { newUsername: newName },
-        { withCredentials: true }
-      )
+      .post(`${domain}/user/change/username`, {
+        userId: user.id,
+        newUsername: newName,
+      })
       .then(() => {
+        setIsSuccess(true);
         window.location.reload();
       })
       .catch((error) => {
@@ -45,12 +48,13 @@ export function ChangeWindow() {
 
   function handleChangePasswordButtonClick() {
     axios
-      .post(
-        `${domain}/user/change/password`,
-        { oldPassword: oldPassword, newPassword: newPassword },
-        { withCredentials: true }
-      )
+      .post(`${domain}/user/change/password`, {
+        userId: user.id,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      })
       .then(() => {
+        setIsSuccess(true);
         window.location.reload();
       })
       .catch((error) => {
@@ -62,9 +66,11 @@ export function ChangeWindow() {
   function handleChangePhotoButtonClick() {
     const formData = new FormData();
     formData.append('userImage', photo!, photo!.name);
+    formData.append('userId', user.id as string);
     axios
-      .post(`${domain}/user/image/add`, formData, { withCredentials: true })
+      .post(`${domain}/user/image/add`, formData)
       .then(() => {
+        setIsSuccess(true);
         window.location.reload();
       })
       .catch((error) => {
@@ -80,6 +86,12 @@ export function ChangeWindow() {
         <ModalCloseButton />
         <ModalBody>
           <Flex alignItems="center" flexDirection="column">
+            {isSuccess && (
+              <Text fontSize="1vw" color="green.300">
+                Данные изменены!
+              </Text>
+            )}
+
             <Text fontSize="1.4vw" fontWeight="bold">
               Имя
             </Text>
