@@ -53,8 +53,8 @@ export function Login() {
 
   return (
     <Center mt={20}>
-      <Flex align="center" mt={2} flexDirection="column">
-        <Image w="6.5rem" h="6.5rem" src={logoHome} />
+      <Flex align="center" flexDirection="column">
+        <Image w="5.5rem" h="5.5rem" src={logoHome} />
         <Text
           fontFamily="sans-serif"
           fontSize="2.5vw"
@@ -66,12 +66,14 @@ export function Login() {
         </Text>
         <Box
           backgroundColor="rgba(160, 209, 214, 0.88)"
-          mt={35}
-          w="28vw"
-          h="45vh"
+          w="auto"
+          h="auto"
+          p="3vw"
+          pl="4vw"
+          pr="4vw"
           borderRadius={15}
         >
-          <Flex align="center" mt={14} flexDirection="column">
+          <Flex align="center" flexDirection="column">
             <Text fontSize="1.7vw" fontWeight="600">
               Добро пожаловать!
             </Text>
