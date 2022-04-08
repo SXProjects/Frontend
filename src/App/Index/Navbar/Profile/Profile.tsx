@@ -61,8 +61,9 @@ export function Profile() {
         <Avatar size="lg" src={`${domain}/${user.id}.png`} />
       </MenuButton>
       <MenuList
-        w="25vw"
-        h="24vh"
+        w="auto"
+        h="auto"
+        p="1.5vw"
         backgroundColor="rgba(160, 209, 214, 0.88)"
         borderRadius={15}
       >
@@ -71,12 +72,12 @@ export function Profile() {
             <Flex align="center" justifyContent="center">
               <Avatar src={`${domain}/${user.id}.png`} size="xl" ml="0.3vw" />
             </Flex>
-            <Flex flexDirection="column" ml="1vw" align="center" mt="2vh">
+            <Flex flexDirection="column" ml="1vw" align="center">
               <Flex flexDirection="row" align="center">
-                <Text fontSize="1.8vw" fontWeight="bold">
+                <Text fontSize="2.1vw" fontWeight="bold">
                   {user.name}
                 </Text>
-                <Badge colorScheme="pink" ml="1vw" fontSize="0.8vw">
+                <Badge colorScheme="pink" ml="1vw" fontSize="1vw">
                   {user.permission}
                 </Badge>
               </Flex>
@@ -87,7 +88,11 @@ export function Profile() {
                       <Button fontSize="0.8vw" onClick={onOpenUserCreate}>
                         Добавить пользователя
                       </Button>
-                      <Button mt="1vh" onClick={onOpenAddDevice}>
+                      <Button
+                        fontSize="0.8vw"
+                        mt="1vh"
+                        onClick={onOpenAddDevice}
+                      >
                         Добавить устройство
                       </Button>
                     </Fragment>

@@ -1,32 +1,38 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import axios from 'axios';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { domain } from '../../../config/config';
 import { useAppSelector } from '../../../redux/hooks';
+import { selectRoom } from '../../../redux/slices/Room/roomSlice';
 import { Profile } from './Profile/Profile';
 import { Sidebar } from './Sidebar/Sidebar';
 
 export function Navbar() {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
-  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     axios
-      .post(`${domain}/command/send`, {
-        command_name: 'list_locations',
-        match: false,
-        location: 'home',
-      })
+      .get(`${domain}/parameters/rooms`)
       .then((response) => {
-        let gotRooms = response.data[0].sublocations;
-        setRooms(gotRooms);
+        setRooms(response.data);
+        dispatch(selectRoom(response.data[0]));
       })
       .catch((error) => {
         console.log(error.response.data);
       });
   }, []);
+
+  function translateName(dataType: string) {
+    if (dataType === 'livingroom') {
+      return 'Гостинная';
+    }
+
+    if (dataType === 'kitchen') {
+      return 'Кухня';
+    }
+  }
 
   return (
     <Box mt="4vh">
@@ -47,8 +53,11 @@ export function Navbar() {
               backgroundColor="#56999f"
               _hover={{ backgroundColor: '#56999f' }}
               _active={{ backgroundColor: '#508489' }}
+              onClick={() => {
+                dispatch(selectRoom(name));
+              }}
             >
-              {name}
+              {translateName(name)}
             </Button>
           );
         })}

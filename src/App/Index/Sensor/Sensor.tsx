@@ -1,82 +1,102 @@
-import {Box, Flex, Text, Square, Circle} from '@chakra-ui/react';
-import {useState,useEffect} from "react";
+import { Box, Flex, Text, Square, Circle, Center } from '@chakra-ui/react';
+import { useState, useEffect, FunctionComponent } from 'react';
+import React from 'react';
+import axios from 'axios';
+import { domain } from '../../../config/config';
+import { useAppSelector } from '../../../redux/hooks';
 
-export function Sensor(){
-  const [sensors,setSensors] = useState([
-    {"sensor_name": "light sensor",
-      "sensor_type": "Lumen",
-      "sensor_data": "800",
-      "sensor_state": true
-    },
-    {"sensor_name": "Temperature sensor",
-      "sensor_type": "Temperature",
-      "sensor_data": "39 °C",
-      "sensor_state": false
-    },
-    {"sensor_name": "Smoke detector",
-      "sensor_type": "Smoke",
-      "sensor_data": false,
-      "sensor_state": false
-    },
-    {"sensor_name": "Humility sensor",
-      "sensor_type": "Humility",
-      "sensor_data": "40%",
-      "sensor_state": true
-
-    }
-  ]);
+export function Sensor() {
+  const [sensors, setSensors] = useState([] as any[]);
+  const currentRoom = useAppSelector((state) => state.room);
 
   useEffect(() => {
+    axios
+      .get(`${domain}/parameters/get`)
+      .then((response) => {
+        console.log(currentRoom.active);
+        setSensors(response.data as any[]);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   }, []);
 
-  return(<Box className="sensor-container"
-              fontFamily="sans-serif">
-    <Flex ml="3vw"
-          flexDirection="row"
-          justifyContent="center"
-          mt ='5vw'
-    >
-      {sensors.map((sensors,index) =>
+  function translateName(dataType: string) {
+    if (dataType === 'temperature') {
+      return 'Температура';
+    }
 
-        <Square size='350'
-                bg='green'
-                backgroundColor="#56999f"
-                m ='1.5vw'
-                display={{ md: "flex" }}
-                flexDirection="column"
+    if (dataType === 'humidity') {
+      return 'Влажность';
+    }
 
-        >
+    if (dataType === 'gas') {
+      return 'Газ';
+    }
 
-          <Text  fontWeight="Bold"
-                 fontSize="1.8vw"
-                 ml='1vw' >
-            {sensors.sensor_type}
-          </Text>
-          <Box display="flex"
-               flex-direction="column"
-               fontWeight="Light"
-               fontSize="2.5vw"
-               ml='1.6vw'
+    if (dataType === 'distance') {
+      return 'Расстояние';
+    }
+  }
+
+  return (
+    <Center>
+      <Flex flexDirection="row" justifyContent="center" mt="25vh">
+        {sensors.map((sensor) => (
+          <Flex
+            flexDirection="column"
+            textAlign="center"
+            justifyContent="center"
           >
-            {typeof(sensors.sensor_data) == "string"
-              ?sensors.sensor_data
-              :sensors.sensor_data?
-                "Дым+"
-                :"Дым-"}
-            <Circle
-              size='30'
-              mt="0.85vw"
-              ml="1vw"
-              style={{backgroundColor: sensors.sensor_state
-                  ?"green"
-                  :"red" }}
-            />
-            <Text>
-              {sensors.sensor_state}
-            </Text>
-          </Box>
-        </Square>
-      )}
-    </Flex>
-  </Box>)
+            {sensor.room === currentRoom.active && (
+              <Square
+                size="auto"
+                p="3vw"
+                bg="green"
+                backgroundColor="#56999f"
+                m="1.5vh"
+              >
+                <Box
+                  flex-direction="column"
+                  fontWeight="Light"
+                  fontSize="2.5vw"
+                  textAlign="center"
+                >
+                  <Text fontWeight="Bold" fontSize="2.2vh">
+                    {translateName(sensor.data_type)}
+                  </Text>
+                  <Flex
+                    flexDirection="column"
+                    align="center"
+                    textAlign="center"
+                  >
+                    <Text
+                      fontSize="4.5vh"
+                      textAlign="center"
+                      fontWeight="light"
+                    >
+                      {sensor.data_type === 'temperature'
+                        ? sensor.data + '°С'
+                        : sensor.data}
+                    </Text>
+
+                    {sensor.data_type === 'smoke' && (
+                      <Circle
+                        size="30"
+                        style={{
+                          backgroundColor: (sensor.data as boolean)
+                            ? 'green'
+                            : 'red',
+                        }}
+                      />
+                    )}
+                  </Flex>
+                </Box>
+              </Square>
+            )}
+          </Flex>
+        ))}
+      </Flex>
+    </Center>
+  );
 }
