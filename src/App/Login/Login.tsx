@@ -69,8 +69,8 @@ export function Login() {
           w="auto"
           h="auto"
           p="3vw"
-          pl="4vw"
-          pr="4vw"
+          pl="6vw"
+          pr="6vw"
           borderRadius={15}
         >
           <Flex align="center" flexDirection="column">
