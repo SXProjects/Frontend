@@ -17,6 +17,8 @@ import { domain } from '../../../../config/config';
 import { ChangeWindow } from './ChangeWindow/ChangeWindow';
 import { NewUserWindow } from './NewUserWindow/NewUserWindow';
 import axios from 'axios';
+import { Fragment } from 'react';
+import { AddDevice } from './AddDevice/AddDevice';
 
 export function Profile() {
   const user = useAppSelector((state) => state.user);
@@ -29,6 +31,11 @@ export function Profile() {
     isOpen: isOpenUserCreate,
     onOpen: onOpenUserCreate,
     onClose: onCloseUserCreate,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenAddDevice,
+    onOpen: onOpenAddDevice,
+    onClose: onCloseAddDevice,
   } = useDisclosure();
 
   function handleLogoutButtonClick() {
@@ -54,17 +61,17 @@ export function Profile() {
         <Avatar size="lg" src={`${domain}/${user.id}.png`} />
       </MenuButton>
       <MenuList
-        w="28vw"
-        h="19vh"
+        w="25vw"
+        h="24vh"
         backgroundColor="rgba(160, 209, 214, 0.88)"
         borderRadius={15}
       >
         <Flex flexDirection="column" align="center">
           <Flex flexDirection="row" align="center">
             <Flex align="center" justifyContent="center">
-              <Avatar src={`${domain}/${user.id}.png`} size="xl" mt="3vh" />
+              <Avatar src={`${domain}/${user.id}.png`} size="xl" ml="0.3vw" />
             </Flex>
-            <Flex flexDirection="column" ml="2vw" align="center" mt="2vh">
+            <Flex flexDirection="column" ml="1vw" align="center" mt="2vh">
               <Flex flexDirection="row" align="center">
                 <Text fontSize="1.8vw" fontWeight="bold">
                   {user.name}
@@ -74,16 +81,24 @@ export function Profile() {
                 </Badge>
               </Flex>
               <Flex flexDirection="row" align="center" mt="1.1vh">
-                {user.permission === 'ADMIN' && (
-                  <Button fontSize="0.8vw" onClick={onOpenUserCreate}>
-                    Добавить пользователя
-                  </Button>
-                )}
+                <Flex flexDirection="column">
+                  {user.permission === 'ADMIN' && (
+                    <Fragment>
+                      <Button fontSize="0.8vw" onClick={onOpenUserCreate}>
+                        Добавить пользователя
+                      </Button>
+                      <Button mt="1vh" onClick={onOpenAddDevice}>
+                        Добавить устройство
+                      </Button>
+                    </Fragment>
+                  )}
+                </Flex>
+
                 <Button
                   leftIcon={<MdBuild />}
                   colorScheme="pink"
                   w="0.5vw"
-                  ml="0.2vw"
+                  ml="0.5vw"
                   onClick={onOpenSettings}
                 />
                 <Button
@@ -105,6 +120,9 @@ export function Profile() {
         </Modal>
         <Modal isOpen={isOpenUserCreate} onClose={onCloseUserCreate}>
           <NewUserWindow />
+        </Modal>
+        <Modal isOpen={isOpenAddDevice} onClose={onCloseAddDevice}>
+          <AddDevice />
         </Modal>
       </Flex>
     </Menu>

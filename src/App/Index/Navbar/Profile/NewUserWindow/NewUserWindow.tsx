@@ -62,7 +62,7 @@ export function NewUserWindow() {
   return (
     <Fragment>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mt="19vh">
         <ModalHeader>Добавить пользователя</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -81,7 +81,7 @@ export function NewUserWindow() {
             </Select>
 
             <FormControl isInvalid={isError} mt="2vh">
-              <Text fontSize="1.4vw" fontWeight="bold">
+              <Text fontSize="1.4vw" fontWeight="bold" textAlign="center">
                 Имя
               </Text>
               <Input
@@ -91,7 +91,13 @@ export function NewUserWindow() {
                 onChange={(e) => setUsername(e.target.value)}
                 mt="2vh"
               />
-              <Text fontSize="1.4vw" fontWeight="bold" mt="3vh" mb="-3vh">
+              <Text
+                fontSize="1.4vw"
+                fontWeight="bold"
+                mt="3vh"
+                mb="-3vh"
+                textAlign="center"
+              >
                 Пароль
               </Text>
 

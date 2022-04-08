@@ -1,13 +1,7 @@
 import {
-  Center,
-  Box,
-  Image,
   Text,
-  Badge,
   Flex,
   Button,
-  useDisclosure,
-  Modal,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
