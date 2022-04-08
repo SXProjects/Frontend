@@ -1,4 +1,13 @@
-import { Box, Flex, Text, Square, Circle, Center } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Text,
+  Square,
+  Circle,
+  Center,
+  Input,
+  Button,
+} from '@chakra-ui/react';
 import { useState, useEffect, FunctionComponent } from 'react';
 import React from 'react';
 import axios from 'axios';
@@ -7,6 +16,9 @@ import { useAppSelector } from '../../../redux/hooks';
 
 export function Sensor() {
   const [sensors, setSensors] = useState([] as any[]);
+  const [isSend, setIsSend] = useState(false);
+  const [room, setRoom] = useState('');
+  const [receiver, setReceiver] = useState('');
   const currentRoom = useAppSelector((state) => state.room);
 
   useEffect(() => {
@@ -39,9 +51,83 @@ export function Sensor() {
     }
   }
 
+  function handleONButtonClick() {
+    setIsSend(true);
+
+    axios
+      .post(`${domain}/command/send`, {
+        room: room,
+        receiver: receiver,
+        parameter: isSend,
+      })
+      .then(() => {
+        setIsSend(true);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        setIsSend(false);
+      });
+  }
+
   return (
     <Center>
       <Flex flexDirection="row" justifyContent="center" mt="25vh">
+        <Square
+          size="auto"
+          bg="green"
+          backgroundColor="#56999f"
+          m="1.5vh"
+          pl="2vw"
+          pr="2vw"
+          borderRadius={10}
+        >
+          <Box
+            flex-direction="column"
+            fontWeight="Light"
+            fontSize="2.5vw"
+            textAlign="center"
+          >
+            <Flex flexDirection="column" align="center" textAlign="center">
+              <Input
+                placeholder="Название комнаты"
+                borderColor="black"
+                variant="flushed"
+                _placeholder={{ color: 'black' }}
+                onChange={(e) => setRoom(e.target.value)}
+              />
+              <Input
+                placeholder="Получатель"
+                borderColor="black"
+                variant="flushed"
+                _placeholder={{ color: 'black' }}
+                onChange={(e) => setReceiver(e.target.value)}
+              />
+              <Flex
+                flexDirection="row"
+                align="center"
+                justifyContent="center"
+                mt="2vh"
+              >
+                <Button
+                  backgroundColor="#9ECFD4"
+                  _hover={{ backgroundColor: '#8AB9BE' }}
+                  _active={{ backgroundColor: '#508489' }}
+                  onClick={handleONButtonClick}
+                >
+                  ON
+                </Button>
+                <Circle
+                  ml="1vw"
+                  size="1.5vw"
+                  style={{
+                    backgroundColor: isSend ? 'green.700' : 'red.700',
+                  }}
+                />
+              </Flex>
+            </Flex>
+          </Box>
+        </Square>
+
         {sensors.map((sensor, index) => (
           <Flex
             flexDirection="column"
@@ -56,6 +142,7 @@ export function Sensor() {
                 bg="green"
                 backgroundColor="#56999f"
                 m="1.5vh"
+                borderRadius={10}
               >
                 <Box
                   flex-direction="column"

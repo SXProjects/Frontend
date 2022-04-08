@@ -62,9 +62,6 @@ export function Navbar() {
           );
         })}
       </Flex>
-      <Flex justifyContent="flex-end" align="flex-end" mr="2vw" mt="-80px">
-        <Sidebar />
-      </Flex>
     </Box>
   );
 }
