@@ -52,7 +52,7 @@ export function Sensor() {
   }
 
   function handleONButtonClick() {
-    setIsSend(true);
+    setIsSend(!isSend);
 
     axios
       .post(`${domain}/command/send`, {
@@ -114,7 +114,7 @@ export function Sensor() {
                   _active={{ backgroundColor: '#508489' }}
                   onClick={handleONButtonClick}
                 >
-                  ON
+                  {isSend ? 'ON' : 'OFF'}
                 </Button>
               </Flex>
             </Flex>
@@ -157,11 +157,11 @@ export function Sensor() {
                       fontWeight="light"
                     >
                       {sensor.data_type === 'temperature'
-                        ? sensor.data + '°С'
-                        : sensor.data}
+                        ? Math.round(sensor.data as number) + '°С'
+                        : Math.round(sensor.data as number)}
                     </Text>
 
-                    {sensor.data_type === 'smoke' && (
+                    {sensor.data_type === 'gas' && (
                       <Circle
                         size="30"
                         style={{
