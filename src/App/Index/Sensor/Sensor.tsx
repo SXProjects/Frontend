@@ -151,15 +151,17 @@ export function Sensor() {
                     align="center"
                     textAlign="center"
                   >
-                    <Text
-                      fontSize="4.5vh"
-                      textAlign="center"
-                      fontWeight="light"
-                    >
-                      {sensor.data_type === 'temperature'
-                        ? Math.round(sensor.data as number) + '°С'
-                        : Math.round(sensor.data as number)}
-                    </Text>
+                    {sensor.data_type !== 'gas' && (
+                      <Text
+                        fontSize="4.5vh"
+                        textAlign="center"
+                        fontWeight="light"
+                      >
+                        {sensor.data_type === 'temperature'
+                          ? Math.round(sensor.data as number) + '°С'
+                          : Math.round(sensor.data as number)}
+                      </Text>
+                    )}
 
                     {sensor.data_type === 'gas' && (
                       <Circle
