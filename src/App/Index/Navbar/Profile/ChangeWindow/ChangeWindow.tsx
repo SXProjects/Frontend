@@ -167,28 +167,6 @@ export function ChangeWindow() {
                 )}
               </FormControl>
             </Flex>
-            <Text fontSize="1.4vw" fontWeight="bold" mt="2vh" mb="3vh">
-              Фото
-            </Text>
-            <input
-              type="file"
-              name="Выбрать"
-              onChange={(e) => {
-                setPhoto(e.target.files![0]);
-                setIsPhotoLoaded(false);
-              }}
-            />
-            <Button
-              mt="3vh"
-              w="5vw"
-              backgroundColor="#56999f"
-              _hover={{ backgroundColor: '#56999f' }}
-              _active={{ backgroundColor: '#508489' }}
-              onClick={handleChangePhotoButtonClick}
-              disabled={isPhotoLoaded}
-            >
-              Сменить
-            </Button>
           </Flex>
         </ModalBody>
       </ModalContent>

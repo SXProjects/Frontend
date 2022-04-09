@@ -12,7 +12,7 @@ export function Navbar() {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
 
-  useEffect(() => {
+  function updateParams() {
     axios
       .get(`${domain}/parameters/rooms`)
       .then((response) => {
@@ -22,7 +22,7 @@ export function Navbar() {
       .catch((error) => {
         console.log(error.response.data);
       });
-  }, []);
+  }
 
   function translateName(dataType: string) {
     if (dataType === 'livingroom') {
@@ -33,6 +33,10 @@ export function Navbar() {
       return 'Кухня';
     }
   }
+
+  useEffect(() => {
+    updateParams();
+  }, []);
 
   return (
     <Box mt="4vh">
@@ -53,7 +57,7 @@ export function Navbar() {
               backgroundColor="#56999f"
               _hover={{ backgroundColor: '#56999f' }}
               _active={{ backgroundColor: '#508489' }}
-              onClick={() => {
+              onClick={async () => {
                 dispatch(selectRoom(name));
               }}
             >

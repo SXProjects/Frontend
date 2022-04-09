@@ -71,7 +71,7 @@ export function Sensor() {
 
   return (
     <Center>
-      <Flex flexDirection="row" justifyContent="center" mt="25vh">
+      <Flex flexDirection="row" justifyContent="center" mt="25vh" w="auto">
         <Square
           size="auto"
           bg="green"
@@ -116,13 +116,6 @@ export function Sensor() {
                 >
                   ON
                 </Button>
-                <Circle
-                  ml="1vw"
-                  size="1.5vw"
-                  style={{
-                    backgroundColor: isSend ? 'green.700' : 'red.700',
-                  }}
-                />
               </Flex>
             </Flex>
           </Box>

@@ -68,16 +68,16 @@ export function Login() {
           backgroundColor="rgba(160, 209, 214, 0.88)"
           w="auto"
           h="auto"
-          p="3vw"
+          p="4vw"
           pl="6vw"
           pr="6vw"
           borderRadius={15}
         >
           <Flex align="center" flexDirection="column">
-            <Text fontSize="1.7vw" fontWeight="600">
+            <Text fontSize="1.7vw" fontWeight="600" w="100%">
               Добро пожаловать!
             </Text>
-            <Text fontSize="1vw" mt={1}>
+            <Text fontSize="0.9vw" mt={1} w="100%" textAlign="center">
               Пожалуйста, авторизуйтесь...
             </Text>
             <Box w="16vw">
